@@ -32,7 +32,7 @@ conferred_hash = lm.degree_hash(lm.CONFERRED, lm.INSTITUTION)
 lm.print_ascii_face_32(conferred_hash)
 
 
-# In[5]:
+# In[6]:
 
 def facemap_to_points(facemap):
     '''Return the points arrays dimension 1 and dimension 2 that correspond to 
@@ -56,7 +56,7 @@ def facemap_to_bitmap(facemap):
     
 
 
-# In[ ]:
+# In[7]:
 
 conferred_degree_points = facemap_to_points(conferred_hash)
 logo_map = lm.bu_logo()
@@ -65,7 +65,7 @@ logo_bitmap = facemap_to_bitmap(logo_map)
 conferred_bitmap = facemap_to_bitmap(conferred_hash)
 
 
-# In[ ]:
+# In[8]:
 
 from matplotlib.pyplot import figure, scatter
 
@@ -75,7 +75,7 @@ def scatter32x32(pointdict):
     return plot_fig
 
 
-# In[ ]:
+# In[9]:
 
 #%%
 logo_fig = scatter32x32(logo_points)
@@ -83,7 +83,7 @@ logo_fig = scatter32x32(logo_points)
 degree_fig = scatter32x32(conferred_degree_points)
 
 
-# In[ ]:
+# In[10]:
 
 cubespace = []
 xs = []
@@ -104,23 +104,37 @@ for z in range(32):
                 zs.append(xyz_val[2])
 
 
-# In[ ]:
+# In[14]:
 
 fig3d = plt.figure()
-fig3d.set_figheight(8)
+fig3d.set_figheight(16)
 fig3d.set_figwidth(8)
 
 
-ax = fig3d.add_subplot(111, projection='3d', 
+for rot in [-90,-45,0]
+
+ax = fig3d.add_subplot(221, projection='3d', 
                        azim=0, elev=0)
 ax.scatter(xs, ys, zs, zdir='y' )
-ax.set_xlabel('x label')
-ax.set_ylabel('y label')
-ax.set_zlabel('z label')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
 
 ax.set_xlim3d(-1, 33)
 ax.set_ylim3d(-1, 33)
 ax.set_zlim3d(-1, 33)
+
+ax2 = fig3d.add_subplot(222, projection='3d', 
+                       azim=-90, elev=0)
+ax2.scatter(xs, ys, zs, zdir='y' )
+ax2.set_xlabel('x')
+ax2.set_ylabel('y')
+ax2.set_zlabel('z')
+
+ax2.set_xlim3d(-1, 33)
+ax2.set_ylim3d(-1, 33)
+ax2.set_zlim3d(-1, 33)
+
 fig3d.show()
 
 
