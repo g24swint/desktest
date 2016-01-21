@@ -3,12 +3,16 @@
 
 # In[1]:
 
-get_ipython().magic(u'matplotlib nbagg')
+get_ipython().magic(u'matplotlib notebook')
+
+
+# In[2]:
+
 get_ipython().magic(u'load_ext autoreload')
 get_ipython().magic(u'autoreload 2')
 
 
-# In[2]:
+# In[3]:
 
 from __future__ import print_function
 from __future__ import division
@@ -21,15 +25,15 @@ from matplotlib import animation
 import logo_maps as lm
 
 
-# In[3]:
-
-lm.print_bu_logo()
-
-
 # In[4]:
 
+#lm.print_bu_logo()
+
+
+# In[5]:
+
 conferred_hash = lm.degree_hash(lm.CONFERRED, lm.INSTITUTION)
-lm.print_ascii_face_32(conferred_hash)
+#lm.print_ascii_face_32(conferred_hash)
 
 
 # In[6]:
@@ -104,38 +108,77 @@ for z in range(32):
                 zs.append(xyz_val[2])
 
 
-# In[14]:
+# In[13]:
 
 fig3d = plt.figure()
 fig3d.set_figheight(16)
-fig3d.set_figwidth(8)
+fig3d.set_figwidth(16)
 
 
-for rot in [-90,-45,0]
-
-ax = fig3d.add_subplot(221, projection='3d', 
-                       azim=0, elev=0)
-ax.scatter(xs, ys, zs, zdir='y' )
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_zlabel('z')
-
-ax.set_xlim3d(-1, 33)
-ax.set_ylim3d(-1, 33)
-ax.set_zlim3d(-1, 33)
-
-ax2 = fig3d.add_subplot(222, projection='3d', 
-                       azim=-90, elev=0)
-ax2.scatter(xs, ys, zs, zdir='y' )
-ax2.set_xlabel('x')
-ax2.set_ylabel('y')
-ax2.set_zlabel('z')
-
-ax2.set_xlim3d(-1, 33)
-ax2.set_ylim3d(-1, 33)
-ax2.set_zlim3d(-1, 33)
+for i in range(4):
+    ax = fig3d.add_subplot(2, 2, i+1, projection='3d', 
+                           azim=i*45 + -90, elev=0)
+    ax.scatter(xs, ys, zs, zdir='y' )
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
+    ax.set_xlim3d(-1, 33)
+    ax.set_ylim3d(-1, 33)
+    ax.set_zlim3d(-1, 33)
 
 fig3d.show()
+
+
+# In[12]:
+
+class AniDesk(object):
+    def __init__(self, xs, ys, zs):
+        fig_an = plt.figure()
+        fig_an.set_figheight(10)
+        fig_an.set_figwidth(10)
+
+        aax = fig_an.add_subplot(111, projection='3d', 
+                                   azim=i*45 + -90, elev=0)
+        self.fig = fig_an
+        self.aax = aax
+        self.xs = xs
+        self.ys = ys
+        self.zs = zs
+        self.angle = -90    
+        
+        self.ani = animation.FuncAnimation(self.fig, self.update, init_func=self.setup_plot, 
+                                      interval=100)
+    
+    
+    def setup_plot(self):
+        print("init with xs: ", self.xs)
+        self.aax.set_xlabel('x')
+        self.aax.set_ylabel('y')
+        self.aax.set_zlabel('z')
+        
+        self.scatplot = self.aax.scatter(self.xs, self.ys, self.zs, zdir='y', animated=True )
+        
+        self.aax.set_xlim3d(-1, 33)
+        self.aax.set_ylim3d(-1, 33)
+        self.aax.set_zlim3d(-1, 33)
+        
+        return self.scatplot
+
+
+    
+    def update(self, i):
+        print(i)
+        self.angle = self.angle + 15
+
+        aax.view_init(0, self.angle)
+        plt.draw()
+        return aax
+
+    def show(self):
+        self.fig.show()
+
+a = AniDesk(xs, ys, zs)
+a.show()
 
 
 # In[ ]:
